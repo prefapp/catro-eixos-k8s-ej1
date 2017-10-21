@@ -53,7 +53,7 @@
       <hr />
       <p>
         Versión: 
-        <span id="version">2.0.0</span>
+        <span id="version">3.0.0</span>
       </p>
       
       <p>
@@ -65,6 +65,12 @@
         Contenedor uptime:  
         <span id="uptime"></span>
       </p>
+
+      <p>
+        Visitas totales:  
+        <span id="visitas_totales"></span>
+      </p>
+
 
     </div>
 
@@ -92,6 +98,7 @@
 
         document.getElementById("contenedor").style.backgroundColor = "#" + intARGB(hashear(r.hostname))
 
+        document.getElementById("visitas_totales").textContent = r.visitas;
 
       }
 

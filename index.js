@@ -11,6 +11,10 @@ const _package = require("./package.json");
 
 const fs = require("fs");
 
+const init = require("./lib/init.js");
+
+let mongoVisitas;
+
 app.get("/servidor", function(req, res){
 
   res.json({
@@ -27,28 +31,60 @@ app.get("/servidor", function(req, res){
 
 app.get('/', function(req, res){
 
-  fs.readFile(__dirname + "/public/index.html", function(err, data){
+  let v;
 
-    data = data.toString();  
+  mongoVisitas.getVisitas()
 
-    data = data.replace(/JSON/, JSON.stringify(
-  
-      {
-      
-        version: _package.version,
-  
-        hostname: os.hostname(),
-  
-        uptime: Math.round((Date.now() - uptime) / 1000)
-  
-      }
-    ))
-
-    res.setHeader("Content-Type", "text/html");
-    res.send(data);
+    .then((visitas) => {
     
-  })
+      if(!visitas) v = 0;
+      else  v = visitas.visitas;
 
+      return mongoVisitas.nuevaVisita(v)
+    })
+
+    .then(() => {
+
+      fs.readFile(__dirname + "/public/index.html", function(err, data){
+
+        data = data.toString();  
+
+        data = data.replace(/JSON/, JSON.stringify(
+      
+          {
+          
+            version: _package.version,
+      
+            hostname: os.hostname(),
+      
+            uptime: Math.round((Date.now() - uptime) / 1000),
+
+            visitas: v
+      
+          }
+        ))
+
+        res.setHeader("Content-Type", "text/html");
+        res.send(data);
+        
+      })
+   })
 })
 
-app.listen(process.env.PUERTO_APP || 3000);
+init()
+
+  .then(({MongoVisitas}) => {
+
+    mongoVisitas = MongoVisitas;
+
+    app.listen(process.env.PUERTO_APP || 3000);
+
+  })
+
+  .catch((err) => {
+
+      console.log(`ERROR EN INIT: ${err}`);
+
+      process.exit(1);
+
+  })
