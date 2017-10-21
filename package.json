@@ -4,7 +4,8 @@
   "description": "Test de funcioamiento de un pod de kubernetes",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "iniciar": "npm install && node index.js"
   },
   "author": "Francisco Maseda Muiño <frmadem@gmail.com>",
   "license": "ISC",
