@@ -53,7 +53,7 @@
       <hr />
       <p>
         Versión: 
-        <span id="version"></span>
+        <span id="version">2.0.0</span>
       </p>
       
       <p>
@@ -71,39 +71,17 @@
     
     <script>
 
+      var r = 'JSON';
+
       window.addEventListener("load", function(){
 
-        recogerInformacion();
-
-        setInterval(recogerInformacion, 1000);
+        mostrarInfo(JSON.parse(r));
 
       })
 
-      function recogerInformacion(){
-
-        fetch("/servidor")
-
-          .then(function(res){
-
-            return res.json()
-
-          })
-
-          .then(function(r){
-
-            mostrarInfo(r);
-
-          })
-
-      }
-
       function mostrarInfo(r){
 
-        document.getElementById("contenedor").style.backgroundColor = "#" + intARGB(hashear(r.hostname))
-
-
         document.getElementById("hostname").textContent = r.hostname;
-        document.getElementById("version").textContent = r.version;
 
         var t = new Date(0)
   
@@ -111,6 +89,9 @@
 
         document.getElementById("uptime").textContent = (t.getHours()-1) + ':' + t.getMinutes() + ':' + t.getSeconds() 
         
+
+        document.getElementById("contenedor").style.backgroundColor = "#" + intARGB(hashear(r.hostname))
+
 
       }
 
