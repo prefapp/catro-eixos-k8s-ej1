@@ -9,13 +9,7 @@ const uptime = Date.now();
 
 const _package = require("./package.json");
 
-app.use(express.static(__dirname + '/public'));
-
-app.get('/', function(req, res){
-
-    res.sendFile(__dirname + '/public/index.html'); 
-
-});
+const fs = require("fs");
 
 app.get("/servidor", function(req, res){
 
@@ -27,6 +21,32 @@ app.get("/servidor", function(req, res){
 
     uptime: Math.round((Date.now() - uptime) / 1000)
 
+  })
+
+})
+
+app.get('/', function(req, res){
+
+  fs.readFile(__dirname + "/public/index.html", function(err, data){
+
+    data = data.toString();  
+
+    data = data.replace(/JSON/, JSON.stringify(
+  
+      {
+      
+        version: _package.version,
+  
+        hostname: os.hostname(),
+  
+        uptime: Math.round((Date.now() - uptime) / 1000)
+  
+      }
+    ))
+
+    res.setHeader("Content-Type", "text/html");
+    res.send(data);
+    
   })
 
 })

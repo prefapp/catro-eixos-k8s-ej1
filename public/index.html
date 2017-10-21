@@ -31,29 +31,17 @@
     
     <script>
 
+      var r = 'JSON';
+
       window.addEventListener("load", function(){
 
-        fetch("/servidor")
-
-          .then(function(res){
-
-            return res.json()
-
-          })
-
-          .then(function(r){
-
-            mostrarInfo(r);
-
-          })
+        mostrarInfo(JSON.parse(r));
 
       })
 
       function mostrarInfo(r){
 
-
         document.getElementById("hostname").textContent = r.hostname;
-
 
         var t = new Date(0)
   
