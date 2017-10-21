@@ -1,0 +1,71 @@
+<html>
+
+  <head>
+
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+
+    <div>
+      <h1>Info</h1>
+      <p>
+        Versión: 
+        <span id="version"></span>
+      </p>
+      
+      <p>
+        Hostname: 
+        <span id="hostname"></span>
+      </p>
+      
+      <p>
+        Contenedor uptime:  
+        <span id="uptime"></span>
+      </p>
+      
+
+    </div>
+
+    
+    <script>
+
+      window.addEventListener("load", function(){
+
+        fetch("/servidor")
+
+          .then(function(res){
+
+            return res.json()
+
+          })
+
+          .then(function(r){
+
+            mostrarInfo(r);
+
+          })
+
+      })
+
+      function mostrarInfo(r){
+
+
+        document.getElementById("hostname").textContent = r.hostname;
+        document.getElementById("version").textContent = r.version;
+
+
+        var t = new Date(0)
+  
+        t.setSeconds(r.uptime);
+
+        document.getElementById("uptime").textContent = (t.getHours()-1) + ':' + t.getMinutes() + ':' + t.getSeconds() 
+        
+
+      }
+
+    </script>
+
+  </body>
+
+</html>

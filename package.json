@@ -1,0 +1,20 @@
+{
+  "name": "kube-test",
+  "version": "1.0.0",
+  "description": "Test de funcioamiento de un pod de kubernetes",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "author": "Francisco Maseda Muiño <frmadem@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "node-fetch": "^1.7.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "expect": "^21.2.1",
+    "mocha": "^4.0.1"
+  }
+}
